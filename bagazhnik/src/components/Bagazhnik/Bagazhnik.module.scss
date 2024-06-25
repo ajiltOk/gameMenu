@@ -1,0 +1,7 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(6, 4fr);
+  grid-template-rows: auto auto;
+  grid-column: 2 / 3;
+  grid-row: 1 / span 2;
+}
