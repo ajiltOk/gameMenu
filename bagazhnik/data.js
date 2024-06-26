@@ -7,10 +7,10 @@ const data = [
   {
     ItemId: 2,
     Name: "AccessTimeIcon",
-    Quantity: 2,
+    Quantity: 3,
   },
   {
-    ItemId: 2,
+    ItemId: 3,
     Name: "ColorizeIcon",
     Quantity: 1,
   },
