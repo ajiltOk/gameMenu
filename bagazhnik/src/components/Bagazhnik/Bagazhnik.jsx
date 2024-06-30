@@ -70,38 +70,20 @@ function Bagazhnik() {
 
 export default Bagazhnik;*/
 
-import React, { useState } from "react";
 import DraggableElement from "../Item/Item";
 
-const DraggableContainer = () => {
-  const [elements, setElements] = useState([
-    { id: 1, text: "Element 1" },
-    { id: 2, text: "Element 2" },
-    { id: 3, text: "Element 3" },
-  ]);
-
-  const moveElement = (fromId, toId) => {
-    const fromIndex = elements.findIndex((element) => element.id === fromId);
-    const toIndex = elements.findIndex((element) => element.id === toId);
-
-    const updatedElements = [...elements];
-    const [removedElement] = updatedElements.splice(fromIndex, 1);
-    updatedElements.splice(toIndex, 0, removedElement);
-
-    setElements(updatedElements);
-  };
+const DraggableContainer = ({ elements }) => {
 
   return (
-    <div>
+    <>
+      <p>Багажник</p>
       {elements.map((element) => (
         <DraggableElement
           key={element.id}
-          id={element.id}
-          text={element.text}
-          moveElement={moveElement}
+          element={element}
         />
       ))}
-    </div>
+    </>
   );
 };
 

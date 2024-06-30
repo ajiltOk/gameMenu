@@ -1,16 +1,20 @@
 import styles from "./Karman.module.scss";
-import Item from "../Item/Item";
+import DraggableElement from "../Item/Item";
 
-function Karman() {
+const Karman = ({ draggedToKarman }) => {
+
   return (
-    <div>
+    <>
       <p>Карман</p>
       <div className={styles.container}>
-        {[...Array(10)].map((_, index) => (
-          <Item key={index} />
+        {draggedToKarman.map((element, index) => (
+          <DraggableElement 
+            key={index} 
+            element={element}
+          />
         ))}
       </div>
-    </div>
+    </>
   );
 }
 

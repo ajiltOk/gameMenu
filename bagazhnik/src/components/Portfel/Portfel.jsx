@@ -1,16 +1,19 @@
 import styles from "./Portfel.module.scss";
-import Item from "../Item/Item";
+import DraggableElement from "../Item/Item";
 
-function Portfel() {
+function Portfel({ draggedToPortfel }) {
   return (
-    <div>
+    <>
       <p>Портфель</p>
       <div className={styles.container}>
-        {[...Array(20)].map((_, index) => (
-          <Item key={index} />
+        {draggedToPortfel.map((element, index) => (
+          <DraggableElement 
+            key={index} 
+            element={element}
+          />
         ))}
       </div>
-    </div>
+    </>
   );
 }
 

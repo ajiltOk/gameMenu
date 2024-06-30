@@ -16,37 +16,40 @@ function Item({ itemName }) {
 
 export default Item;*/
 
-import React, { useRef } from "react";
-import { useDrag, useDrop } from "react-dnd";
+import { useDrag, useDrop} from "react-dnd";
 
-const DraggableElement = ({ id, text, moveElement }) => {
-  let draggedRef = useRef(null);
-  const [{ isDragging }, drag] = useDrag({
+const DraggableElement = ({ element }) => {
+
+  const [{ isDragging }, dragRef] = useDrag({
     type: "ELEMENT",
-    item: { id },
+    item: { element },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
 
-  const [, drop] = useDrop({
+  const [, dropRef] = useDrop({
     accept: "ELEMENT",
-    hover: (item) => {
-      if (!draggedRef.current) {
-        return;
-      }
-      if (item.id !== id) {
-        moveElement(item.id, id);
-      }
+    hover: (element) => {
+      console.log(element)
     },
   });
 
   const opacity = isDragging ? 0.4 : 1;
 
   return (
-    <div ref={(node) => drag(drop(node))} style={{ opacity }}>
-      {text}
-    </div>
+    <>
+      {element && !isDragging &&
+        <div ref={dragRef} style={{ opacity }} location={element.location} id={element.id}>
+        {element.text}
+      </div>
+      }
+      {element && isDragging &&
+        <div ref={dropRef} style={{ opacity }} location={element.location} id={element.id}>
+        {element.text}
+      </div>
+      }
+    </> 
   );
 };
 
