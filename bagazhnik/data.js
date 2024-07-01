@@ -1,18 +1,21 @@
 const data = [
   {
-    ItemId: 1,
-    Name: "WorkIcon",
-    Quantity: 2,
+    id: 1,
+    name: "WorkIcon",
+    quantity: 2,
+    location: "bagazhnik",
   },
   {
-    ItemId: 2,
-    Name: "AccessTimeIcon",
-    Quantity: 3,
+    id: 2,
+    name: "AccessTimeIcon",
+    quantity: 3,
+    location: "bagazhnik",
   },
   {
-    ItemId: 3,
-    Name: "ColorizeIcon",
-    Quantity: 1,
+    id: 3,
+    name: "ColorizeIcon",
+    quantity: 1,
+    location: "bagazhnik",
   },
 ];
 

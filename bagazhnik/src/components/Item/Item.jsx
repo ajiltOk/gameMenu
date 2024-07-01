@@ -1,7 +1,10 @@
-/*import styles from "./Item.module.scss";
+import styles from "./Item.module.scss";
 import WorkIcon from "@mui/icons-material/Work";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ColorizeIcon from "@mui/icons-material/Colorize";
+
+import { useDrag, useDrop } from "react-dnd";
+import { memo } from "react";
 
 const iconComponents = {
   WorkIcon: WorkIcon,
@@ -9,48 +12,57 @@ const iconComponents = {
   ColorizeIcon: ColorizeIcon,
 };
 
-function Item({ itemName }) {
+const DraggableElement = memo(function DraggableElement({
+  id,
+  itemName,
+  moveCard,
+  findCard,
+  element,
+}) {
+  let elementQuantity = element.quantity;
   const IconComponent = iconComponents[itemName];
-  return <div className={styles.item}>{itemName && <IconComponent />}</div>;
-}
+  const originalIndex = findCard(id).index;
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: "ELEMENT",
+      item: { id, originalIndex, element, elementQuantity },
 
-export default Item;*/
-
-import { useDrag, useDrop} from "react-dnd";
-
-const DraggableElement = ({ element }) => {
-
-  const [{ isDragging }, dragRef] = useDrag({
-    type: "ELEMENT",
-    item: { element },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+      end: (item, monitor) => {
+        const { id: droppedId, originalIndex } = item;
+        const didDrop = monitor.didDrop();
+        if (!didDrop) {
+          moveCard(droppedId, originalIndex);
+        }
+      },
     }),
-  });
-
-  const [, dropRef] = useDrop({
-    accept: "ELEMENT",
-    hover: (element) => {
-      console.log(element)
-    },
-  });
-
-  const opacity = isDragging ? 0.4 : 1;
-
-  return (
-    <>
-      {element && !isDragging &&
-        <div ref={dragRef} style={{ opacity }} location={element.location} id={element.id}>
-        {element.text}
-      </div>
-      }
-      {element && isDragging &&
-        <div ref={dropRef} style={{ opacity }} location={element.location} id={element.id}>
-        {element.text}
-      </div>
-      }
-    </> 
+    [id, originalIndex, moveCard]
   );
-};
+  const [, drop] = useDrop(
+    () => ({
+      accept: "ELEMENT",
+      hover({ id: draggedId }) {
+        if (draggedId !== id) {
+          const { index: overIndex } = findCard(id);
+          moveCard(draggedId, overIndex);
+        }
+      },
+    }),
+    [findCard, moveCard]
+  );
+  const opacity = isDragging ? 0 : 1;
+  return (
+    <div
+      ref={(node) => drag(drop(node))}
+      //location={element.location}
+      className={styles.cell}
+    >
+      {itemName && <IconComponent />}
+      {element && <span>{elementQuantity}</span>}
+    </div>
+  );
+});
 
 export default DraggableElement;
