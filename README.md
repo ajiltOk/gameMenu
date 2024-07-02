@@ -1,1 +1,1 @@
-https://ajiltok.github.io/gameMenu/
+https://ajiltok.github.io/gameMenu/bagazhnik/
